@@ -115,8 +115,13 @@ class GeometryIO:
     faceData = FaceData()
     faceData.deg = len(face.loops)
     for loop in face.loops:
-      if selectionOnly and not syncmode and not loop[uvLayer].select:
-        return None, indexCount
+      if selectionOnly and not syncmode:
+        if hasattr(face, "uv_select"):
+          if not face.uv_select:
+            return None, indexCount
+        else: # fallback for Blender 4
+          if not loop[uvLayer].select:
+            return None, indexCount
 
       uv_coord = loop[uvLayer].uv
       faceData.uvVertices.append([uv_coord.x, uv_coord.y])

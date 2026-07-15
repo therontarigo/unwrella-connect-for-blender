@@ -33,8 +33,8 @@ class Processing:
     self.timer = time.time()
     self.coverage = 0.0
     self.density = 0.0
-    self.sceneScale = context.scene.unit_settings.scale_length
-    self.dispUnit = Util.get_scale_display_unit()
+    self.sceneScale = Util.get_unit_factor()
+    self.dispUnit = Util.get_unit_display_value()
     unwrella_props = context.scene.UnwrellaProps
 
     if unwrella_props.uio_create_channel:
@@ -101,7 +101,7 @@ class Processing:
   def modal(self, operator, context, event):
     self.check_user_cancel(operator, event)
     if self.check_messages(operator):
-      dispDensity = float(self.density) / self.sceneScale
+      dispDensity = round(float(self.density) / self.sceneScale, 3)
       dispTime = round(time.time() - self.timer, 2)
       context.scene.UnwrellaProps.uio_stats = f"{self.coverage}%  ¦  {dispDensity}px/{self.dispUnit}  ¦  {dispTime}s"
       bpy.ops.wm.redraw_timer(type='DRAW_WIN_SWAP', iterations=1)

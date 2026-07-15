@@ -75,7 +75,7 @@ class Util:
     except:
       return ""
 
-  def get_scale_display_unit():
+  def get_unit_display_value():
     unit = bpy.context.scene.unit_settings.length_unit
     if unit == "KILOMETERS":
       return "km"
@@ -96,3 +96,26 @@ class Util:
     elif unit == "THOU":
       return "th"
     return "unit"
+
+  def get_unit_factor():
+    factor = bpy.context.scene.unit_settings.scale_length
+    unit = bpy.context.scene.unit_settings.length_unit
+    if unit == "KILOMETERS":
+      factor *= 0.001
+    elif unit == "METERS":
+      factor *= 1.0
+    elif unit == "CENTIMETERS":
+      factor *= 100.0
+    elif unit == "MILLIMETERS":
+      factor *= 1000.0
+    elif unit == "MICROMETERS":
+      factor *= 1000000.0
+    elif unit == "MILES":
+      factor *= 0.00062137
+    elif unit == "FEET":
+      factor *= 3.2808399
+    elif unit == "INCHES":
+      factor *= 39.37007874
+    elif unit == "THOU":
+      factor *= 39370.07874
+    return factor
